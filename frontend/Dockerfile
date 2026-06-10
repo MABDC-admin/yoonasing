@@ -3,10 +3,10 @@ FROM node:18-alpine as build
 WORKDIR /app
 
 # Force NODE_ENV to development so npm installs all devDependencies (like Vite)
-# Coolify often forces NODE_ENV=production globally which breaks Vite builds.
 ENV NODE_ENV=development
 
-COPY package*.json ./
+# Only copy package.json (NOT package-lock.json) to avoid cross-platform native binary issues (e.g. esbuild musl vs Windows)
+COPY package.json ./
 RUN npm install
 
 COPY . .
@@ -14,12 +14,16 @@ COPY . .
 # Now switch back to production for the actual build
 ENV NODE_ENV=production
 
+# Increase Node memory limit to prevent OOM kills on small Coolify servers
+ENV NODE_OPTIONS="--max-old-space-size=2048"
+
 ARG VITE_YOUTUBE_API_KEY
 ARG VITE_BACKEND_URL
 ENV VITE_YOUTUBE_API_KEY=$VITE_YOUTUBE_API_KEY
 ENV VITE_BACKEND_URL=$VITE_BACKEND_URL
 
-RUN npm run build
+# Run the build command, and if it fails, output the error logs
+RUN npm run build || (echo "BUILD FAILED. Printing logs:" && cat /root/.npm/_logs/*-debug.log && exit 1)
 
 # Stage 2: Serve with Nginx
 FROM nginx:alpine
