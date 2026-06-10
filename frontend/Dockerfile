@@ -1,12 +1,19 @@
 # Stage 1: Build the Vite React App
 FROM node:18-alpine as build
 WORKDIR /app
+
+# Force NODE_ENV to development so npm installs all devDependencies (like Vite)
+# Coolify often forces NODE_ENV=production globally which breaks Vite builds.
+ENV NODE_ENV=development
+
 COPY package*.json ./
-# Force include devDependencies even if NODE_ENV=production is injected by the host
-RUN npm install --include=dev
+RUN npm install
+
 COPY . .
-# The build requires the VITE_YOUTUBE_API_KEY to be available, 
-# or injected at runtime. Since Vite compiles it statically, we accept it as an ARG.
+
+# Now switch back to production for the actual build
+ENV NODE_ENV=production
+
 ARG VITE_YOUTUBE_API_KEY
 ARG VITE_BACKEND_URL
 ENV VITE_YOUTUBE_API_KEY=$VITE_YOUTUBE_API_KEY
