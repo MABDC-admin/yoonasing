@@ -2,7 +2,8 @@
 FROM node:18-alpine as build
 WORKDIR /app
 COPY package*.json ./
-RUN npm install
+# Force include devDependencies even if NODE_ENV=production is injected by the host
+RUN npm install --include=dev
 COPY . .
 # The build requires the VITE_YOUTUBE_API_KEY to be available, 
 # or injected at runtime. Since Vite compiles it statically, we accept it as an ARG.
