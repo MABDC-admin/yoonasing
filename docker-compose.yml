@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  frontend:
+    build: 
+      context: ./frontend
+      args:
+        - VITE_YOUTUBE_API_KEY=${VITE_YOUTUBE_API_KEY}
+        - VITE_BACKEND_URL=${VITE_BACKEND_URL:-http://localhost:4000}
+    ports:
+      - "80:80"
+    restart: unless-stopped
+    depends_on:
+      - backend
+
+  backend:
+    build: 
+      context: ./backend
+    ports:
+      - "4000:4000"
+    restart: unless-stopped
+    environment:
+      - PORT=4000
