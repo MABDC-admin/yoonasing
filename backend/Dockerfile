@@ -1,4 +1,5 @@
-FROM node:18-alpine
+# Use Node.js 20 Alpine for the backend
+FROM node:20-alpine
 WORKDIR /app
 COPY package*.json ./
 RUN npm install --production

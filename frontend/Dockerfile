@@ -1,5 +1,5 @@
 # Stage 1: Build the Vite React App
-FROM node:18-alpine as build
+FROM node:20-alpine as build
 WORKDIR /app
 
 # Force NODE_ENV to development so npm installs all devDependencies (like Vite)
