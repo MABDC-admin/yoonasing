@@ -16,12 +16,12 @@
 <ng-template #mainApp>
   <header class="app-header">
     <div class="logo-container">
-      <lucide-mic color="#ef4444" [size]="24"></lucide-mic>
+      <svg lucideMic color="#ef4444" [size]="24"></svg>
       <span><span class="logo-blue">Yoona</span><span class="logo-red">Sing</span></span>
     </div>
     <div style="display: flex; gap: 1rem; color: var(--text-muted);">
-      <lucide-search [size]="20"></lucide-search>
-      <lucide-layout-grid [size]="20"></lucide-layout-grid>
+      <svg lucideSearch [size]="20"></svg>
+      <svg lucideLayoutGrid [size]="20"></svg>
     </div>
   </header>
 
@@ -38,10 +38,10 @@
       <div class="controls-row">
         <app-song-search (addSong)="handleAddSong($event)"></app-song-search>
         <button class="btn btn-icon btn-success">
-          <lucide-play [size]="16" color="white"></lucide-play>
+          <svg lucidePlay [size]="16" color="white"></svg>
         </button>
         <button class="btn btn-icon btn-danger">
-          <lucide-power [size]="16"></lucide-power>
+          <svg lucidePower [size]="16"></svg>
         </button>
       </div>
       

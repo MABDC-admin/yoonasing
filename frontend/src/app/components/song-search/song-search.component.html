@@ -1,5 +1,5 @@
 <div class="search-container" #dropdown>
-  <form (submit)="handleSearch($event)" style="display: flex; gap: 0.5rem; width: 100%;">
+  <form (ngSubmit)="handleSearch()" class="search-input-group">
     <input 
       type="text" 
       [(ngModel)]="query" 
@@ -9,10 +9,10 @@
       autocomplete="off"
       (focus)="results.length > 0 && (showDropdown = true)"
     />
-    <button type="submit" class="btn btn-primary" [disabled]="isSearching">
+    <button type="submit" class="btn btn-search" [disabled]="isSearching">
       <ng-container *ngIf="isSearching; else searchIcon">...</ng-container>
       <ng-template #searchIcon>
-        <lucide-search [size]="20"></lucide-search>
+        <svg lucideSearch [size]="20"></svg>
       </ng-template>
     </button>
   </form>
