@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Search } from 'lucide-react';
 
-const API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY;
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:4000';
 
 export default function SongSearch({ onAddSong }) {
   const [query, setQuery] = useState('');
@@ -27,7 +27,9 @@ export default function SongSearch({ onAddSong }) {
     const searchQuery = query.toLowerCase().includes('karaoke') ? query : query + ' karaoke';
     
     try {
-      const res = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(searchQuery)}&maxResults=10&type=video&videoEmbeddable=true&key=${API_KEY}`);
+      // Call our backend proxy instead of YouTube directly.
+      // The API key lives on the server — never exposed to the browser.
+      const res = await fetch(`${BACKEND_URL}/api/youtube/search?q=${encodeURIComponent(searchQuery)}&maxResults=10`);
       const data = await res.json();
       
       if (data.items) {

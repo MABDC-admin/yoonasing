@@ -2,10 +2,32 @@ const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
 const cors = require('cors');
+require('dotenv').config();
 
 const app = express();
 app.use(cors());
+app.use(express.json());
 
+// ─── YouTube Search Proxy ───────────────────────────────────────
+// The API key lives HERE on the server, never in the frontend bundle.
+// Rotating the key = restart the backend. No frontend rebuild needed.
+const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
+
+app.get('/api/youtube/search', async (req, res) => {
+  const { q, maxResults = 10 } = req.query;
+  if (!q) return res.status(400).json({ error: 'Missing query parameter "q"' });
+  if (!YOUTUBE_API_KEY) return res.status(500).json({ error: 'YouTube API key not configured on server' });
+
+  try {
+    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(q)}&maxResults=${maxResults}&type=video&videoEmbeddable=true&key=${YOUTUBE_API_KEY}`;
+    const response = await fetch(url);
+    const data = await response.json();
+    res.json(data);
+  } catch (err) {
+    console.error('YouTube API proxy error:', err);
+    res.status(500).json({ error: 'Failed to fetch from YouTube API' });
+  }
+});
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
