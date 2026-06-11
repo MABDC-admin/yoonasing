@@ -25,12 +25,14 @@
     pointer-events: none;"></div>
 
   <div 
-    #iframeContainer 
+    #playerWrapper
     style="
       width: 100%; 
       height: 110%; 
       margin-top: -10%;
       transition: opacity 0.2s ease-in-out;"
     [style.display]="videoId ? 'block' : 'none'"
-  ></div>
+  >
+    <div #iframeContainer></div>
+  </div>
 </div>

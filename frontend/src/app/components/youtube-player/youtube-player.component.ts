@@ -19,6 +19,7 @@ export class YoutubePlayerComponent implements OnInit, OnChanges, OnDestroy {
   @Output() end = new EventEmitter<void>();
 
   @ViewChild('iframeContainer', { static: true }) iframeRef!: ElementRef;
+  @ViewChild('playerWrapper', { static: true }) wrapperRef!: ElementRef;
 
   private player: any;
   private isReady = false;
@@ -77,14 +78,14 @@ export class YoutubePlayerComponent implements OnInit, OnChanges, OnDestroy {
         },
         onStateChange: (e: any) => {
           if (e.data === window.YT.PlayerState.ENDED) {
-            if (this.iframeRef?.nativeElement) {
-              this.iframeRef.nativeElement.style.opacity = '0';
+            if (this.wrapperRef?.nativeElement) {
+              this.wrapperRef.nativeElement.style.opacity = '0';
             }
             this.end.emit();
           }
           if (e.data === window.YT.PlayerState.PLAYING) {
-            if (this.iframeRef?.nativeElement) {
-              this.iframeRef.nativeElement.style.opacity = '1';
+            if (this.wrapperRef?.nativeElement) {
+              this.wrapperRef.nativeElement.style.opacity = '1';
             }
           }
         }
