@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { io, Socket } from 'socket.io-client';
 import { AppConfigService } from './app-config.service';
 
-import { LucideAngularModule, Mic, LayoutGrid, Play, Power, Search } from 'lucide-angular';
+import { LucideMic, LucideLayoutGrid, LucidePlay, LucidePower, LucideSearch } from '@lucide/angular';
 import { YoutubePlayerComponent } from './components/youtube-player/youtube-player.component';
 import { SongSearchComponent } from './components/song-search/song-search.component';
 import { QueueComponent } from './components/queue/queue.component';
@@ -14,7 +14,11 @@ import { PitchDetectorComponent } from './components/pitch-detector/pitch-detect
   standalone: true,
   imports: [
     CommonModule, 
-    LucideAngularModule, 
+    LucideMic, 
+    LucideLayoutGrid, 
+    LucidePlay, 
+    LucidePower, 
+    LucideSearch, 
     YoutubePlayerComponent, 
     SongSearchComponent, 
     QueueComponent, 
@@ -30,12 +34,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   queue: any[] = [];
   currentVideo: any = null;
-
-  readonly MicIcon = Mic;
-  readonly LayoutGridIcon = LayoutGrid;
-  readonly PlayIcon = Play;
-  readonly PowerIcon = Power;
-  readonly SearchIcon = Search;
 
   constructor(private configService: AppConfigService) {}
 

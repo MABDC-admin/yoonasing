@@ -1,11 +1,11 @@
 import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LucideAngularModule, Mic, MicOff } from 'lucide-angular';
+import { LucideMic, LucideMicOff } from '@lucide/angular';
 
 @Component({
   selector: 'app-pitch-detector',
   standalone: true,
-  imports: [CommonModule, LucideAngularModule],
+  imports: [CommonModule, LucideMic, LucideMicOff],
   templateUrl: './pitch-detector.component.html'
 })
 export class PitchDetectorComponent implements OnChanges, OnDestroy {
@@ -21,9 +21,6 @@ export class PitchDetectorComponent implements OnChanges, OnDestroy {
   private scoreAccumulator = 0;
   private samples = 0;
   private animationFrameId: number | null = null;
-
-  readonly MicIcon = Mic;
-  readonly MicOffIcon = MicOff;
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['isPlaying']) {

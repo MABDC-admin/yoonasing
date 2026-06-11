@@ -12,7 +12,7 @@
     <button type="submit" class="btn btn-primary" [disabled]="isSearching">
       <ng-container *ngIf="isSearching; else searchIcon">...</ng-container>
       <ng-template #searchIcon>
-        <lucide-icon [name]="SearchIcon" [size]="20"></lucide-icon>
+        <lucide-search [size]="20"></lucide-search>
       </ng-template>
     </button>
   </form>

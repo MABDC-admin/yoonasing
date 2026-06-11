@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { AppConfigService } from '../../app-config.service';
-import { LucideAngularModule, Search } from 'lucide-angular';
+import { LucideSearch } from '@lucide/angular';
 
 @Component({
   selector: 'app-song-search',
   standalone: true,
-  imports: [CommonModule, FormsModule, LucideAngularModule],
+  imports: [CommonModule, FormsModule, LucideSearch],
   templateUrl: './song-search.component.html'
 })
 export class SongSearchComponent {
@@ -19,7 +19,6 @@ export class SongSearchComponent {
   results: any[] = [];
   isSearching = false;
   showDropdown = false;
-  readonly SearchIcon = Search;
 
   constructor(private http: HttpClient, private configService: AppConfigService) {}
 

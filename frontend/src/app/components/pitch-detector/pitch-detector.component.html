@@ -1,10 +1,10 @@
 <div class="glass-panel" style="padding: 1rem; display: flex; align-items: center; justify-content: space-between; margin-top: 1rem;">
   <div style="display: flex; align-items: center; gap: 0.5rem;">
     <ng-container *ngIf="isListening; else micOff">
-      <lucide-icon [name]="MicIcon" color="var(--primary-color)"></lucide-icon>
+      <lucide-mic color="var(--primary-color)"></lucide-mic>
     </ng-container>
     <ng-template #micOff>
-      <lucide-icon [name]="MicOffIcon" color="var(--text-muted)"></lucide-icon>
+      <lucide-mic-off color="var(--text-muted)"></lucide-mic-off>
     </ng-template>
     <span>Live Scoring</span>
   </div>
