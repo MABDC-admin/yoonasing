@@ -6,7 +6,10 @@ import SongSearch from './components/SongSearch';
 import Queue from './components/Queue';
 import PitchDetector from './components/PitchDetector';
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:4000';
+// In production (when hosted on Coolify), we use relative paths ('') so requests go through Nginx proxy
+// In local development, we fallback to localhost:4000
+const isProd = import.meta.env.PROD;
+const BACKEND_URL = isProd ? '' : 'http://localhost:4000';
 
 function App() {
   const [visitorId, setVisitorId] = useState('');

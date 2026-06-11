@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Search } from 'lucide-react';
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:4000';
+const isProd = import.meta.env.PROD;
+const BACKEND_URL = isProd ? '' : 'http://localhost:4000';
 
 export default function SongSearch({ onAddSong }) {
   const [query, setQuery] = useState('');
