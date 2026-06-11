@@ -1,0 +1,33 @@
+<div class="search-container" #dropdown>
+  <form (submit)="handleSearch($event)" style="display: flex; gap: 0.5rem; width: 100%;">
+    <input 
+      type="text" 
+      [(ngModel)]="query" 
+      name="query"
+      class="search-input" 
+      placeholder="Search for a song..."
+      autocomplete="off"
+      (focus)="results.length > 0 && (showDropdown = true)"
+    />
+    <button type="submit" class="btn btn-primary" [disabled]="isSearching">
+      <ng-container *ngIf="isSearching; else searchIcon">...</ng-container>
+      <ng-template #searchIcon>
+        <lucide-icon [name]="SearchIcon" [size]="20"></lucide-icon>
+      </ng-template>
+    </button>
+  </form>
+
+  <div class="search-dropdown" *ngIf="showDropdown && results.length > 0">
+    <div 
+      *ngFor="let video of results"
+      class="search-result-item"
+      (click)="selectSong(video)"
+    >
+      <img [src]="video.snippet.thumbnails.default.url" alt="thumbnail" />
+      <div class="search-result-info">
+        <div class="search-result-title">{{ video.snippet.title }}</div>
+        <div class="search-result-channel">{{ video.snippet.channelTitle }}</div>
+      </div>
+    </div>
+  </div>
+</div>

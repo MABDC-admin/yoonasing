@@ -1,0 +1,35 @@
+<div class="queue-container">
+  <div class="current-playing" *ngIf="currentVideo">
+    <h3>Now Playing</h3>
+    <div class="queue-item active">
+      <img [src]="currentVideo.snippet.thumbnails.default.url" alt="thumbnail" />
+      <div class="queue-item-info">
+        <div class="queue-item-title">{{ currentVideo.snippet.title }}</div>
+        <div class="queue-item-channel">{{ currentVideo.snippet.channelTitle }}</div>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="margin-top: 1rem; margin-bottom: 0.5rem; color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Up Next</h3>
+  
+  <div class="queue-list" *ngIf="queue.length > 0; else emptyQueue">
+    <div class="queue-item" *ngFor="let video of queue; let i = index">
+      <div class="queue-item-number">{{ i + 1 }}</div>
+      <img [src]="video.snippet.thumbnails.default.url" alt="thumbnail" />
+      <div class="queue-item-info">
+        <div class="queue-item-title">{{ video.snippet.title }}</div>
+        <div class="queue-item-channel">{{ video.snippet.channelTitle }}</div>
+      </div>
+      <div class="queue-item-actions">
+        <button class="btn btn-icon" (click)="playSong.emit(i)" title="Play Now">▶</button>
+        <button class="btn btn-icon" (click)="removeSong.emit(i)" title="Remove">✕</button>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #emptyQueue>
+    <div class="empty-queue">
+      The queue is empty. Search for a song to start singing!
+    </div>
+  </ng-template>
+</div>

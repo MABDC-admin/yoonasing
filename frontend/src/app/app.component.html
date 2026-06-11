@@ -1,0 +1,63 @@
+<ng-container *ngIf="isRemote; else mainApp">
+  <div style="padding: 1rem; display: flex; flex-direction: column; gap: 1rem;">
+    <h2 style="text-align: center; font-weight: 800;">
+      <span class="logo-blue">Yoona</span><span class="logo-red">Sing</span> Remote
+    </h2>
+    <app-song-search (addSong)="handleAddSong($event)"></app-song-search>
+    <app-queue 
+      [queue]="queue" 
+      [currentVideo]="currentVideo"
+      (playSong)="handlePlaySong($event)"
+      (removeSong)="handleRemoveSong($event)">
+    </app-queue>
+  </div>
+</ng-container>
+
+<ng-template #mainApp>
+  <header class="app-header">
+    <div class="logo-container">
+      <lucide-icon [name]="MicIcon" color="#ef4444" [size]="24"></lucide-icon>
+      <span><span class="logo-blue">Yoona</span><span class="logo-red">Sing</span></span>
+    </div>
+    <div style="display: flex; gap: 1rem; color: var(--text-muted);">
+      <lucide-icon [name]="SearchIcon" [size]="20"></lucide-icon>
+      <lucide-icon [name]="LayoutGridIcon" [size]="20"></lucide-icon>
+    </div>
+  </header>
+
+  <div class="main-content">
+    <div class="video-section">
+      <app-youtube-player 
+        [videoId]="currentVideo?.id?.videoId" 
+        (end)="playNext()">
+      </app-youtube-player>
+      <app-pitch-detector [isPlaying]="!!currentVideo && !isRemote"></app-pitch-detector>
+    </div>
+    
+    <div class="sidebar-section panel">
+      <div class="controls-row">
+        <app-song-search (addSong)="handleAddSong($event)"></app-song-search>
+        <button class="btn btn-icon btn-success">
+          <lucide-icon [name]="PlayIcon" [size]="16" color="white"></lucide-icon>
+        </button>
+        <button class="btn btn-icon btn-danger">
+          <lucide-icon [name]="PowerIcon" [size]="16"></lucide-icon>
+        </button>
+      </div>
+      
+      <app-queue 
+        [queue]="queue" 
+        [currentVideo]="currentVideo"
+        (playSong)="handlePlaySong($event)"
+        (removeSong)="handleRemoveSong($event)">
+      </app-queue>
+    </div>
+  </div>
+
+  <div class="chatbot-bubble">
+    Can't decide on a song? Let me help!
+  </div>
+  <div class="chatbot-icon">
+    🎵
+  </div>
+</ng-template>

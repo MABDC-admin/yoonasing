@@ -1,33 +1,28 @@
-# Stage 1: Build the Vite React App
+# Stage 1: Build the Angular App
 FROM node:20-alpine as build
 WORKDIR /app
 
-# Force NODE_ENV to development so npm installs all devDependencies (like Vite)
 ENV NODE_ENV=development
 
-# Only copy package.json (NOT package-lock.json) to avoid cross-platform native binary issues (e.g. esbuild musl vs Windows)
 COPY package.json ./
-RUN npm install
+RUN npm install --legacy-peer-deps
 
 COPY . .
 
-# Now switch back to production for the actual build
 ENV NODE_ENV=production
-
-# Increase Node memory limit to prevent OOM kills on small Coolify servers
 ENV NODE_OPTIONS="--max-old-space-size=2048"
 
+# Angular doesn't need these VITE args anymore, but Coolify might pass them
+# so we accept them to prevent build arguments errors
 ARG VITE_YOUTUBE_API_KEY
 ARG VITE_BACKEND_URL
-ENV VITE_YOUTUBE_API_KEY=$VITE_YOUTUBE_API_KEY
-ENV VITE_BACKEND_URL=$VITE_BACKEND_URL
 
-# Run the build command, and if it fails, output the error logs
 RUN npm run build || (echo "BUILD FAILED. Printing logs:" && cat /root/.npm/_logs/*-debug.log && exit 1)
 
 # Stage 2: Serve with Nginx
 FROM nginx:alpine
-COPY --from=build /app/dist /usr/share/nginx/html
+# Angular 17+ outputs to dist/frontend/browser
+COPY --from=build /app/dist/frontend/browser /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80

@@ -1,0 +1,36 @@
+<div style="
+  width: 100%; 
+  height: 100%; 
+  background-color: #000; 
+  border-radius: 8px; 
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  position: relative;">
+  
+  <div *ngIf="!videoId" style="color: #fff; opacity: 0.5;">
+    <h2>No video selected</h2>
+  </div>
+  
+  <div *ngIf="videoId" style="
+    position: absolute;
+    bottom: 30px; 
+    right: 0;
+    width: 280px;
+    height: 75px;
+    background-color: #000;
+    z-index: 10;
+    pointer-events: none;"></div>
+
+  <div 
+    #iframeContainer 
+    style="
+      width: 100%; 
+      height: 110%; 
+      margin-top: -10%;
+      transition: opacity 0.2s ease-in-out;"
+    [style.display]="videoId ? 'block' : 'none'"
+  ></div>
+</div>
