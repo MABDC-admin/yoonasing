@@ -9,7 +9,10 @@ import { LucideSearch } from '@lucide/angular';
   selector: 'app-song-search',
   standalone: true,
   imports: [CommonModule, FormsModule, LucideSearch],
-  templateUrl: './song-search.component.html'
+  templateUrl: './song-search.component.html',
+  host: {
+    'style': 'display: block; position: relative; flex: 1;'
+  }
 })
 export class SongSearchComponent {
   @Output() addSong = new EventEmitter<any>();
